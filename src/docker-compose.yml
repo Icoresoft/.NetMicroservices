@@ -1,0 +1,16 @@
+version: '3.4'
+
+#docker run -d -p host:container --name ContainerName ImageName
+#services defines the docker images your are going to add it to your docker-compose
+services:
+  catalogdb:   # service #1 your service name (any name) 
+    image: mongo
+  catalog.api: # service #2 your service name (any name) 
+    image: ${DOCKER_REGISTRY-}catalogapi
+    build:
+      context: .
+      dockerfile: Services/Catalog/Catalog.API/Dockerfile
+#data storage for docker that is resides outside container in hosted file system
+#in this section you only define your volumes then attach theme to your services
+volumes: 
+  catalogdb-data: # volumes definition only 

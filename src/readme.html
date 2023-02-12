@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Docker Commands</title>
+</head>
+<body>
+    /**
+    * docker commands
+    * ===============
+    * 1:Run Docker Image
+    *  docker run -d -p host:container --name ContainerName ImageName
+    *      -d => deattached mode
+    *      -p => port Host Port: Container Port
+    *      --name => your container name
+    *      ImageName => the image you would like to run it
+    * Example=> docker run -d -p 27027:27027  --name Monogo-Shopping mongo
+    *
+    * 2:list all running containers
+    *  docker ps
+    *
+    * 3:Start docker image if already existing
+    *   docker run image-id
+    *
+    * 4:execute interactive terminal
+    * docker exec it ContainerName  Path => it means interactive  terminal
+    * Example docker exec it Mongo-Shoping /bin/bash ==> bash is  command shell for linux and unix
+    */
+    /**
+    * Add Docker  compose
+    * ====================
+    * Compose is a tool for defining and running multi-container Docker applications.
+    * With Compose, you use a YAML file to configure your application’s services.
+    * Then, with a single command, you create and start all the services from your configuration.
+    *
+    * 1- right click on your project => add => container orchestration suport
+    * 2- it will add dockerfile to your project to build image for your project
+    * 3- it will also create new project docker-compose and make it as a startup project
+    * 4- docker-compose.yml file will initially contains your project image that
+    *    you use when adding container orchestraion support
+    * 5- you can edit docker-compose.yml in docker-compose project to add more images
+    *    to the compose (images you need to run your application
+    *    Example Catalog.API image  + MongoDb image
+    * Notes:
+    * ======
+    * you can edit your application port number that docker expose it from
+    * dockerfile=>expose ContainerPortNo command
+    * you can add more environment to docker-compose by adding more files to docker-compose-yml
+    * for example docker-compose.override.yml OR  docker-compose.dev.yml etc
+    *
+    *
+    * 
+    */
+</body>
+</html>

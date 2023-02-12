@@ -1,0 +1,31 @@
+version: '3.4'
+#docker-compose -p projectname -up -d 
+#docker run -d -p host:container --name ContainerName ImageName
+services:
+  catalogdb:
+  #this is container name which acts as server or machine name which will be used to connect to database
+    container_name: catalogdb-server 
+    restart: always
+    ports:
+    # Host:Container
+      - "27017:27017"
+    volumes:
+      - catalogdb-data:/data/db
+  catalog.api:
+    container_name: catalog.api 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DbSettings:ServerName=catalogdb-server"
+      - "DbSettings:PortNo=27017"
+      - "DbSettings:DbName=catalogdb"
+      #- DbSettings__ServerName=catalogdb-server #server name is database container name
+      #container exposed port number 
+      #- DbSettings__PortNo=27017 
+      #- DbSettings__DBName=catalogdb
+      - DbSettings__UserName=""
+      - DbSettings__Password=""
+    ports:
+    # Host:Container
+      - "8000:80" 
+    depends_on:
+      - catalogdb #catalog.api service depends on catalogdb service
