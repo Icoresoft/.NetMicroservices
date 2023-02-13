@@ -13,7 +13,7 @@ using Catalog.API.Repositories;
 using Catalog.API.Services;
 
 #region Documentation
-/**
+/*
 * docker commands
 * ===============
 * 1:Run Docker Image
@@ -51,9 +51,9 @@ using Catalog.API.Services;
 * 10:Pull image from docker registery hub
 *   docker pull image-name
 *   
-* 11:execute interactive terminal 
-* docker exec it ContainerName  Path => it means interactive  terminal
-* Example docker exec it Mongo-Shoping /bin/bash ==> bash is  command shell for linux and unix
+* 11:Run  interactive terminal  ( bash for linux which is equivelant to CMD in windows) 
+* docker exec -it ContainerName  Path => it means interactive  terminal
+* Example => docker exec -it Mongo-Shoping /bin/bash ==> bash is  command shell for linux and unix
 * 
 * 12:Rename Container 
 *   docker rename CONTAINER NEW_NAME
@@ -68,6 +68,8 @@ using Catalog.API.Services;
 *  14:stop and remove docker-compose containers
 *   Instead of using up paramter use down parameter 
 *   docker-compose -p projectname -f yml-file-path down
+*  
+*  15: 
 /**
  * Add Docker  compose
  * ====================

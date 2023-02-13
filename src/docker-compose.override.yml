@@ -2,6 +2,17 @@ version: '3.4'
 #docker-compose -p projectname -up -d 
 #docker run -d -p host:container --name ContainerName ImageName
 services:
+  #docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+  portainer: #managing and monitoring container tool
+    container_name: portainer #portainer-ce portainer-be 
+    restart: always
+    ports:
+     - "8080:8000"
+     - "9000:9000"
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - portainer_data:/data
+
   catalogdb:
   #this is container name which acts as server or machine name which will be used to connect to database
     container_name: catalogdb-server 
@@ -29,3 +40,24 @@ services:
       - "8000:80" 
     depends_on:
       - catalogdb #catalog.api service depends on catalogdb service
+
+#Basket Services
+  basketdb:
+    #this is container name which acts as server or machine name which will be used to connect to database
+    container_name: basketdb-server 
+    restart: always
+    ports:
+    # Host:Container
+      - "6379:6379"
+  
+  basket.api:
+    container_name: basket.api 
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DbSettings:ServerName=basketdb-server"
+      - "DbSettings:PortNo=6379"
+    ports:
+      - "8001:80"
+    depends_on:
+      - basketdb
+

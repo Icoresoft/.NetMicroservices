@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
   <PropertyGroup Label="Globals">
     <!--Compose Project Name-->
-    <DockerComposeProjectName>catalogservice</DockerComposeProjectName>
+    <DockerComposeProjectName>pocmicroservices</DockerComposeProjectName>
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>1a966acf-d1de-4ca1-bf1b-a149ff7a26bd</ProjectGuid>

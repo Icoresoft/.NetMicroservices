@@ -9,6 +9,7 @@ namespace Catalog.API.Repositories
     {
         public ProductRepository(ICatalogContext context) : base(context.products)
         {
+            //context.products.fin
         }
         public async Task<Product> CustomRepoFuncAsync()
         {

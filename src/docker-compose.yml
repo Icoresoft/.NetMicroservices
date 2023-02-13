@@ -3,6 +3,9 @@ version: '3.4'
 #docker run -d -p host:container --name ContainerName ImageName
 #services defines the docker images your are going to add it to your docker-compose
 services:
+  portainer: #managing and monitoring container tool
+    image: portainer/portainer-ce #portainer-ce portainer-be => ce commerical edition , be=>business edition
+
   catalogdb:   # service #1 your service name (any name) 
     image: mongo
   catalog.api: # service #2 your service name (any name) 
@@ -10,7 +13,17 @@ services:
     build:
       context: .
       dockerfile: Services/Catalog/Catalog.API/Dockerfile
+
+  basketdb:
+    image: redis:alpine
+  basket.api:
+    image: ${DOCKER_REGISTRY-}basketapi
+    build:
+      context: .
+      dockerfile: Services/Basket/Basket.API/Dockerfile
+
 #data storage for docker that is resides outside container in hosted file system
 #in this section you only define your volumes then attach theme to your services
 volumes: 
   catalogdb-data: # volumes definition only 
+  portainer_data:
