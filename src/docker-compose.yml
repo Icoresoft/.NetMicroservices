@@ -1,11 +1,37 @@
+# docker compose file structure:
+#===============================
+#version: ''
+#
+#services:
+#  servicename1:
+#    image: imagename
+#    container_name: containername  => it acts as server name 
+#    restart:always
+#    ports:
+#      - "HostPort:ContainerPort"
+#      - "HostPort:ContainerPort" 
+#    environment:
+#      - "DbSettings:PortNo=27017"
+#      - "DbSettings:DbName=catalogdb"
+#      - DbSettings__UserName=""
+#    depends_on:
+#      - servicename
+#    volumes:
+#      - x:/var/lib/postgres/data/
+#volumes:
+# x:
+# y:
+# z:
+
 version: '3.4'
 
 #docker run -d -p host:container --name ContainerName ImageName
 #services defines the docker images your are going to add it to your docker-compose
 services:
-  portainer: #managing and monitoring container tool
+  portainer: #managing and monitoring container tool (like K8 - Veam Kasten - OpenShift - Grafana -swarm)
     image: portainer/portainer-ce #portainer-ce portainer-be => ce commerical edition , be=>business edition
-
+  pgadmin: # psodtgres admininstration
+    image: dpage/pgadmin4
   catalogdb:   # service #1 your service name (any name) 
     image: mongo
   catalog.api: # service #2 your service name (any name) 
@@ -22,8 +48,19 @@ services:
       context: .
       dockerfile: Services/Basket/Basket.API/Dockerfile
 
+  discountdb:
+    image: postgres
+
+  discount.api:
+    image: ${DOCKER_REGISTRY-}discountapi
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.API/Dockerfile
+
+volumes: 
 #data storage for docker that is resides outside container in hosted file system
 #in this section you only define your volumes then attach theme to your services
-volumes: 
   catalogdb-data: # volumes definition only 
   portainer_data:
+  postgres_data:
+  pgadmin_data:

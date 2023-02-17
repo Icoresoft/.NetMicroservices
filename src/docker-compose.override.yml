@@ -3,6 +3,8 @@ version: '3.4'
 #docker run -d -p host:container --name ContainerName ImageName
 services:
   #docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
+
+  #user => admin - password=>##P@$$w0rd##
   portainer: #managing and monitoring container tool
     container_name: portainer #portainer-ce portainer-be 
     restart: always
@@ -13,9 +15,19 @@ services:
      - /var/run/docker.sock:/var/run/docker.sock
      - portainer_data:/data
 
+  pgadmin: # postgres admininstration
+    container_name: pgadmin
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@poc.com
+      - PGADMIN_DEFAULT_PASSWORD=12345
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/root/.pgadmin
   catalogdb:
   #this is container name which acts as server or machine name which will be used to connect to database
-    container_name: catalogdb-server 
+    container_name: catalogdb-server #mongo
     restart: always
     ports:
     # Host:Container
@@ -44,7 +56,7 @@ services:
 #Basket Services
   basketdb:
     #this is container name which acts as server or machine name which will be used to connect to database
-    container_name: basketdb-server 
+    container_name: basketdb-server #redis
     restart: always
     ports:
     # Host:Container
@@ -60,4 +72,30 @@ services:
       - "8001:80"
     depends_on:
       - basketdb
+
+  discountdb:
+    container_name: discountdb-server
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=DiscountDb
+    volumes:
+      - postgres_data:/var/lib/postgres/data/ 
+
+  discount.api:
+    container_name: discount.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - DbSettings_ServerName=discountdb-server
+      - DbSettings_Port=5432
+      - DbSettings_DbName=DiscountDb
+      - DbSettings_UserName=admin
+      - DbSettings_Passowrd=admin
+    ports:
+      - "8002:80"
+    depends_on:
+      - discountdb
 

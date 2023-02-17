@@ -39,6 +39,7 @@ builder.Services.AddCache(options =>
 {
     options.CacheType = CacheType.Redis;
     options.InstanceName = "Basket";
+    //todo : apply the same mechansim as discount service
     options.ConnectionStr = $"{builder.Configuration["DbSettings:ServerName"]}:{builder.Configuration["DbSettings:PortNo"]}";
 }
 );
