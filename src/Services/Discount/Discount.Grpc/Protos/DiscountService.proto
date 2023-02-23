@@ -1,0 +1,33 @@
+syntax = "proto3";
+import "google/protobuf/empty.proto";
+option csharp_namespace = "Discount.Grpc.Protos";
+
+service DiscountService{
+	rpc GetAll(google.protobuf.Empty) returns (RepeatedCouponModel);
+	rpc Create(CouponModel) returns (ResultModel);
+	rpc Update(CouponModel) returns (ResultModel);
+
+	rpc GetProductDiscount (ProductCodeModel) returns (CouponModel);
+	rpc Remove(ProductIdModel) returns (ResultModel);
+
+}
+
+message ProductCodeModel{
+	string ProductCode=1;
+}
+message ProductIdModel{
+	string Id=1;
+}
+message CouponModel{
+	int32 Id=1;
+	string ProductCode=2;
+	string ProductName=3;
+	string Description=4;
+	float Amount=5;
+}
+message RepeatedCouponModel{
+	repeated CouponModel items=1;
+}
+message ResultModel{
+	bool IsSuccess=1;
+}

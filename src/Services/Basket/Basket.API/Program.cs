@@ -1,7 +1,10 @@
 using Basket.API.Repositories;
 using Basket.API.Services;
+using Basket.API.Services.Grpc;
 using Core.Caching;
 using Core.Data;
+using static Discount.Grpc.Protos.DiscountService;
+using static Discount.Grpc.Protos.HealthCheckService;
 
 /* run bash (cli for linux and unix = cmd in windows ) from docker container
  * docker exec -it container-name /bin/bash
@@ -18,7 +21,16 @@ using Core.Data;
  * 5: flushall => remove all keys from all databases
  * 6: flushdb => remove all keys in a database 
  * 
- * 
+ * Add Grpc Service As A Client
+ * ================
+ * 1- right click on your project => add => connected service
+ * 2- Choose Grpc Service
+ * 3- Browse to your .proto file , say XService
+ * 4- Build your project, it will create a new class XServiceClient  
+ * 4- create a .net class wrapper to wrap Grpc service functions in XServiceClient
+ * 5- injecte the created wrapper class where you need to use it
+ * 6- register (Inject) the Grpc service (e.g. XServiceClient ) in startup
+ *    builder.Services.AddGrpcClient<XServiceClient>(options =>{ options.Address = });
  */
 
 var builder = WebApplication.CreateBuilder(args);
@@ -47,6 +59,20 @@ builder.Services.AddCache(options =>
 
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped(typeof(BasketService));
+
+//builder.Services.AddScoped(typeof(HealthCheckServiceClient));
+builder.Services.AddGrpcClient<HealthCheckServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcService:Address"]);
+});
+
+builder.Services.AddGrpcClient<DiscountServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcService:Address"]);
+});
+
+builder.Services.AddScoped(typeof(GrpcHealthCheckService));
+builder.Services.AddScoped(typeof(GrpcDiscountService));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

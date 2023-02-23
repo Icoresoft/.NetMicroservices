@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+option csharp_namespace = "Discount.Grpc.Protos";
+service HealthCheckService{
+	rpc Ping (PingRequest) returns (PingReply);
+}
+
+message PingRequest{
+	string msg=1;
+}
+
+message PingReply{
+	string ServerDateTime=1;
+}

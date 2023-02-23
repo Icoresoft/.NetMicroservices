@@ -68,6 +68,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - "DbSettings:ServerName=basketdb-server"
       - "DbSettings:PortNo=6379"
+      - "GrpcService:Address=http://discount.grpc:80"
     ports:
       - "8001:80"
     depends_on:
@@ -89,13 +90,27 @@ services:
     container_name: discount.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - DbSettings_ServerName=discountdb-server
-      - DbSettings_Port=5432
-      - DbSettings_DbName=DiscountDb
-      - DbSettings_UserName=admin
-      - DbSettings_Passowrd=admin
+      - "DbSettings:ServerName=discountdb-server"
+      - "DbSettings:Port=5432"
+      - "DbSettings:DbName=DiscountDb"
+      - "DbSettings:UserName=admin"
+      - "DbSettings:Passowrd=admin"
     ports:
       - "8002:80"
     depends_on:
       - discountdb
+
+  discount.grpc:
+    container_name: discount.grpc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DbSettings:ServerName=discountdb-server"
+      - "DbSettings:Port=5432"
+      - "DbSettings:DbName=DiscountDb"
+      - "DbSettings:UserName=admin"
+      - "DbSettings:Passowrd=admin"
+    ports:
+      - "8003:80"
+    depends_on:
+      - discountdb 
 

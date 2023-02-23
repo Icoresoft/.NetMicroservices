@@ -19,7 +19,11 @@ namespace Basket.API.Controllers
         {
             return await basketService.GetAsync(UserName);
         }
-
+        [HttpGet("ping")]
+        public async Task<string> Ping(string Message)
+        {
+            return await basketService.Ping(Message);
+        }
         [HttpPut]
         public async Task<ShoppingCart> AddItemAsync(string UserName,ShoppingCartItem item)
         {

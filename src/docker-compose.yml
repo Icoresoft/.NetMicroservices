@@ -29,7 +29,7 @@ version: '3.4'
 #services defines the docker images your are going to add it to your docker-compose
 services:
   portainer: #managing and monitoring container tool (like K8 - Veam Kasten - OpenShift - Grafana -swarm)
-    image: portainer/portainer-ce #portainer-ce portainer-be => ce commerical edition , be=>business edition
+    image: portainer/portainer-ee:latest #portainer-ce portainer-be => ce commerical edition , be=>business edition
   pgadmin: # psodtgres admininstration
     image: dpage/pgadmin4
   catalogdb:   # service #1 your service name (any name) 
@@ -56,6 +56,12 @@ services:
     build:
       context: .
       dockerfile: Services/Discount/Discount.API/Dockerfile
+   
+  discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
 
 volumes: 
 #data storage for docker that is resides outside container in hosted file system
@@ -64,3 +70,4 @@ volumes:
   portainer_data:
   postgres_data:
   pgadmin_data:
+
