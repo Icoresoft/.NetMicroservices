@@ -32,7 +32,7 @@
  *  2:add automapper to the DI container in program.cs 
  *    builder.Services.AddAutoMapper(typeof(Program));
  *  3:add mapper folder in your project then
- *  4:add a mapper profile class  for your entities which inherts from Profile class
+ *  4:add a mapper profile class  for your entities and inherts from Profile class
  *  5:create your map in the profile class contructor
  *    CreateMap<DestinationType,SourceType>().ReverseMap()
  *  6:inject automapper in your service class ( IMapper ) 

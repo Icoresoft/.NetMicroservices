@@ -108,9 +108,46 @@ services:
       - "DbSettings:Port=5432"
       - "DbSettings:DbName=DiscountDb"
       - "DbSettings:UserName=admin"
-      - "DbSettings:Passowrd=admin"
+      - "DbSettings:Password=admin"
     ports:
       - "8003:80"
     depends_on:
       - discountdb 
+  orderdb:
+    container_name: orderdb-server
+    environment:
+     #- MSSQL_SA_PASSWORD=#DBP@$$$$w0rd#
+     - SA_PASSWORD=#DBP@$$$$w0rd#
+     - ACCEPT_EULA=Y
+    restart: always
+    ports:
+      - "11433:1433"
 
+  ordering.api:
+    container_name: ordering.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DbSettings:ServerName=orderdb-server"
+      - "DbSettings:Port=1433"
+      - "DbSettings:DbName=OrderDb"
+      - "DbSettings:UserName=sa"
+      - "DbSettings:Password=#DBP@$$$$w0rd#"
+      #- ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "8004:80"
+    depends_on:
+      - orderdb
+
+  rabbitmq:
+    container_name: rabbitmq-server
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    restart: always
+
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
