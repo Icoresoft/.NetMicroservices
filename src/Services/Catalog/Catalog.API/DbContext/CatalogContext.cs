@@ -10,15 +10,17 @@ namespace Catalog.API.DbContext
     public class CatalogContext : ICatalogContext
     {
         public IMongoCollection<Product> products { get; set; }
-       
-        public CatalogContext(IOptions<DbSettings> dbSettings)
+       private readonly ILogger<CatalogContext> _logger;
+        public CatalogContext(IOptions<DbSettings> dbSettings, ILogger<CatalogContext> logger)
         {
+            logger.LogInformation($"CON STR:{dbSettings.Value.ConnectionString}");
             MongoClient c = new MongoClient(dbSettings.Value.ConnectionString);
             var db = c.GetDatabase(dbSettings.Value.DbName);
             //get reference to collection
             products = db.GetCollection<Product>("Products");
             //seed data
             products.SeedData<Product>(GetProductSeeds());
+            _logger = logger;
         }
         private static IEnumerable<Product> GetProductSeeds()
         {

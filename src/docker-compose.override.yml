@@ -69,10 +69,12 @@ services:
       - "DbSettings:ServerName=basketdb-server"
       - "DbSettings:PortNo=6379"
       - "GrpcService:Address=http://discount.grpc:80"
+      - "RabbitMQ:Host=amqp://admin:admin@rabbitmq-server:5672"
     ports:
       - "8001:80"
     depends_on:
       - basketdb
+      - rabbitmq
 
   discountdb:
     container_name: discountdb-server
@@ -132,11 +134,12 @@ services:
       - "DbSettings:DbName=OrderDb"
       - "DbSettings:UserName=sa"
       - "DbSettings:Password=#DBP@$$$$w0rd#"
-      #- ASPNETCORE_URLS=https://+:443;http://+:80
+      - "RabbitMQ:Host=amqp://admin:admin@rabbitmq-server:5672"
     ports:
       - "8004:80"
     depends_on:
       - orderdb
+      - rabbitmq
 
   rabbitmq:
     container_name: rabbitmq-server

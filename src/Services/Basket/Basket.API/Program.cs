@@ -3,6 +3,9 @@ using Basket.API.Services;
 using Basket.API.Services.Grpc;
 using Core.Caching;
 using Core.Data;
+using MassTransit;
+using Microsoft.Extensions.Options;
+using System.Reflection;
 using static Discount.Grpc.Protos.DiscountService;
 using static Discount.Grpc.Protos.HealthCheckService;
 
@@ -56,6 +59,27 @@ builder.Services.AddCache(options =>
 }
 );
 
+#region MassTransit Config
+
+//Package 1: masstransit 2: masstransit.rabbitmq 
+builder.Services.AddMassTransit(options =>
+{
+    options.UsingRabbitMq((ctx, config) =>
+    {
+        config.Host(builder.Configuration["RabbitMQ:Host"]);
+    });
+});
+//Optional configuration
+builder.Services.Configure<MassTransitHostOptions>(options =>
+{
+    options.WaitUntilStarted = true;
+    options.StartTimeout = TimeSpan.FromSeconds(30);
+    options.StopTimeout = TimeSpan.FromMinutes(1);
+});
+
+#endregion
+
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.AddScoped(typeof(BasketService));
