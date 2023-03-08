@@ -22,7 +22,7 @@ namespace Basket.API.Controllers
             this._mapper = mapper;
             this._publishEndpoint = publishEndpoint;
         }
-        [HttpGet]
+        [HttpGet("{UserName}")]
         public async Task<ShoppingCart> GetAsync(string UserName)
         {
             return await basketService.GetAsync(UserName);
@@ -32,12 +32,12 @@ namespace Basket.API.Controllers
         {
             return await basketService.Ping(Message);
         }
-        [HttpPut]
+        [HttpPost("{UserName}")]
         public async Task<ShoppingCart> AddItemAsync(string UserName, ShoppingCartItem item)
         {
             return await basketService.AddItemAsync(UserName, item);
         }
-        [HttpDelete]
+        [HttpDelete("{UserName}")]
         public async Task<IActionResult> RemoveAsync(string UserName)
         {
             try

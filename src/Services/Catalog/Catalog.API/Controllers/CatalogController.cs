@@ -16,14 +16,16 @@ namespace Catalog.API.Controllers
         {
             Service = service;
         }
-        [HttpGet("GetAll")]
-        [ProducesResponseType(typeof(IEnumerable<Entities.Product>),(int)HttpStatusCode.OK)]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Entities.Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Entities.Product>>> GetAllAsync()
         {
-            var data=await Service.GetAllAsyc();
+            Thread.Sleep(3000);// for testing Ocelot Gateway cache
+            var data = await Service.GetAllAsyc();
             return Ok(data);
         }
-        [HttpGet("GetById")]
+        //catalog/Id
+        [HttpGet("{Id}")]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(Entities.Product), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Entities.Product>>> GetById(string Id)
@@ -36,7 +38,7 @@ namespace Catalog.API.Controllers
             return Ok(data);
         }
 
-        [HttpGet("GetByCategory")]
+        [HttpGet("[Action]/{Category}")]
         [ProducesResponseType(typeof(IEnumerable<Entities.Product>), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<IEnumerable<Entities.Product>>> GetByCategory(string Category)
         {
@@ -44,7 +46,8 @@ namespace Catalog.API.Controllers
             return Ok(data);
         }
 
-        [HttpPost("Create")]
+        //[HttpPost("Create")]
+        [HttpPost]
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Create([FromBody]DTO.ProductDto Product)
@@ -57,7 +60,7 @@ namespace Catalog.API.Controllers
             return Ok();
         }
 
-        [HttpPut("Update")]
+        [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Update([FromBody] DTO.ProductDto Product)
@@ -70,8 +73,8 @@ namespace Catalog.API.Controllers
            
             return result? Ok():BadRequest("NOT UPDATED");
         }
-
-        [HttpDelete("Remove")]
+        //Catalog/Remove/Id
+        [HttpDelete("{Id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> Remove(string Id)
