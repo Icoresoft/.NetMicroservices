@@ -81,6 +81,12 @@ services:
       context: .
       dockerfile: OcelotGateway/Dockerfile
 
+  shopping.aggregator:
+    image: ${DOCKER_REGISTRY-}shoppingaggregator
+    build:
+      context: .
+      dockerfile: Shopping.Aggregator/Dockerfile
+
 volumes: 
 #data storage for docker that is resides outside container in hosted file system
 #in this section you only define your volumes then attach theme to your services
@@ -88,6 +94,7 @@ volumes:
   portainer_data:
   postgres_data:
   pgadmin_data:
+
 
 
 

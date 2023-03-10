@@ -18,7 +18,7 @@ namespace Ordering.API.Controllers
         {
             _mediatR = mediatR;
         }
-        [HttpGet("Get")]
+        [HttpGet("{UserName}")]
         public async Task<ActionResult<List<OrdersVM>>> GetOrdersList(string UserName)
         {
             GetOrdersListQuery Query = new GetOrdersListQuery(UserName);

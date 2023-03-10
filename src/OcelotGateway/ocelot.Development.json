@@ -194,6 +194,19 @@
       ],
       "UpstreamPathTemplate": "/Order/Checkout",
       "UpstreamHttpMethod": [ "Post" ]
+    }, 
+    //Shopping Aggregator API
+    {
+      "DownstreamPathTemplate": "/api/shopping/{UserName}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Shopping.Aggregator.api",
+          "Port": "80"
+        }
+      ],
+      "UpstreamPathTemplate": "/shopping/{UserName}",
+      "UpstreamHttpMethod": [ "get" ]
     }
   ],
   "GlobalConfiguration": {
