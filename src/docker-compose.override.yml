@@ -182,3 +182,19 @@ services:
       - basket.api
       - ordering.api
       - discount.api
+  aspnetrunbasics:
+    container_name: aspnetrunbasics
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiSettings:GatewayAddress=http://ocelotgateway"
+    ports:
+      - "8006:80"
+    depends_on:
+      - ocelotgateway
+      - catalog.api
+      - basket.api
+      - ordering.api
+      - discount.api
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

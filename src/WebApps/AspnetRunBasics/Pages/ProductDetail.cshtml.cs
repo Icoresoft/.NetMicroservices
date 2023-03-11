@@ -46,19 +46,29 @@ namespace AspnetRunBasics
             //1:get product details
             var product = await _catalogService.GetCatalog(productId);
 
-            var basket = await _basketService.GetBasket(userName);
-            basket.Items.Add(
-                    new()
-                    {
-                        ProductId = productId,
-                        Quantity = Quantity,
-                        Price = product.Price,
-                        ProductName = product.Name,
-                        Color = Color,
-                    }
-                );
+            //var basket = await _basketService.GetBasket(userName);
+            //basket.Items.Add(
+            //        new()
+            //        {
+            //            ProductId = productId,
+            //            Quantity = Quantity,
+            //            Price = product.Price,
+            //            ProductName = product.Name,
+            //            Color = Color,
+            //        }
+            //    );
 
-            await _basketService.UpdateBasket(basket);
+            BasketItemModel model = new()
+            {
+                ProductId = productId,
+                ProductCode = productId,
+                Quantity = 1,
+                Price = product.Price,
+                ProductName = product.Name,
+                Color = "black",
+            };
+            await _basketService.UpdateBasket(userName, model);
+
             return RedirectToPage("Cart");
         }
     }

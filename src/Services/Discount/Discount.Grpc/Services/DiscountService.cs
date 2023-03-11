@@ -24,8 +24,13 @@ namespace Discount.Grpc.Services
         public override async Task<CouponModel> GetProductDiscount(ProductCodeModel request, ServerCallContext context)
         {
             var Coupon = await _CouponRepository.GetProductDiscountAsync(request.ProductCode);
-
-            return _mapper.Map<CouponModel>(Coupon);
+            if(Coupon != null)
+            {
+                return _mapper.Map<CouponModel>(Coupon);
+               
+            }
+            var EmptyCoupon = new CouponModel();
+            return EmptyCoupon;
         }
         //public override async Task<RepeatedCouponModel> GetAll(Empty request, ServerCallContext context)
         //{

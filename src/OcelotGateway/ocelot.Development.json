@@ -210,6 +210,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl": "http://localhost:8010"
+    "BaseUrl": "http://ocelotgateway"
   }
 }

@@ -21,9 +21,19 @@ namespace AspnetRunBasics.Services
             return await response.ReadContentAs<BasketModel>();
         }
 
-        public async Task<BasketModel> UpdateBasket(BasketModel model)
+        //public async Task<BasketModel> UpdateBasket(BasketModel model)
+        //{
+        //    var response = await _client.PostAsJson($"/Basket/{model.UserName}", model);
+        //    if (response.IsSuccessStatusCode)
+        //        return await response.ReadContentAs<BasketModel>();
+        //    else
+        //    {
+        //        throw new Exception("Something went wrong when calling api.");
+        //    }
+        //}
+        public async Task<BasketModel> UpdateBasket(string UserName,BasketItemModel model)
         {
-            var response = await _client.PostAsJson($"/Basket", model);
+            var response = await _client.PostAsJson($"/Basket/{UserName}", model);
             if (response.IsSuccessStatusCode)
                 return await response.ReadContentAs<BasketModel>();
             else
@@ -31,7 +41,6 @@ namespace AspnetRunBasics.Services
                 throw new Exception("Something went wrong when calling api.");
             }
         }
-
         public async Task CheckoutBasket(BasketCheckoutModel model)
         {
             var response = await _client.PostAsJson($"/Basket/Checkout", model);

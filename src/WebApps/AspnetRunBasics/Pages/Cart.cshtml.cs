@@ -28,9 +28,9 @@ namespace AspnetRunBasics
 
         public async Task<IActionResult> OnPostRemoveToCartAsync(string ProductId)
         {
-            var  basket= await _basketService.GetBasket("coresoft");
-            basket.Items.Remove(basket.Items.Single(p => p.ProductId == ProductId));
-            Cart=await _basketService.UpdateBasket(basket);
+            //var  basket= await _basketService.GetBasket("coresoft");
+            //basket.Items.Remove(basket.Items.Single(p => p.ProductId == ProductId));
+            //Cart=await _basketService.UpdateBasket(basket);
             //await _basketService.de
             return RedirectToPage();
         }
